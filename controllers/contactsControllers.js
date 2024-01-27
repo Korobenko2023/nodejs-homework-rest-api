@@ -1,14 +1,14 @@
-const contacts = require("../services/contactsServices");
+const { Contact } = require("../services/contactsSchemas");
 const { HttpError, controllerWrapper } = require("../helpers");
 
 const getAllContacts = async (req, res) => {
-     const allContacts = await contacts.listContacts();
+     const allContacts = await Contact.find({}, "-createdAt -updatedAt");
      res.json(allContacts)
 };
 
 const getOneContact = async (req, res) => { 
   const { contactId } = req.params;
-  const contactById = await contacts.getContactById(contactId);
+  const contactById = await Contact.findById(contactId);
   if (!contactById) {
     throw HttpError(404);
   }
@@ -17,7 +17,7 @@ const getOneContact = async (req, res) => {
 
 const deleteContact = async (req, res) => {
   const { contactId  } = req.params;
-    const deleteContact = await contacts.removeContact(contactId)
+    const deleteContact = await Contact.findByIdAndDelete(contactId)
     if (!deleteContact) {
       throw HttpError(404);
     }
@@ -25,13 +25,22 @@ const deleteContact = async (req, res) => {
 };
 
 const createContact = async (req, res) => {
-    const newContact = await contacts.addContact(req.body);    
+    const newContact = await Contact.create(req.body);    
     res.status(201).json(newContact)    
 };
 
 const updateContact = async (req, res) => {
   const { contactId } = req.params;
-  const updatedContact = await contacts.updateContactById(contactId, req.body)
+  const updatedContact = await Contact.findByIdAndUpdate(contactId, req.body, { new: true })
+   if (!updatedContact) {
+      throw HttpError(404);
+  }   
+  res.json(updatedContact)
+};
+ 
+const updateStatusContact = async (req, res) => {
+  const { contactId } = req.params;
+  const updatedContact = await Contact.findByIdAndUpdate(contactId, req.body, { new: true })
    if (!updatedContact) {
       throw HttpError(404);
   }   
@@ -43,6 +52,7 @@ module.exports = {
     getOneContact: controllerWrapper(getOneContact),
     deleteContact: controllerWrapper(deleteContact),
     createContact: controllerWrapper(createContact),
-    updateContact: controllerWrapper(updateContact)
+    updateContact: controllerWrapper(updateContact),
+    updateStatusContact: controllerWrapper(updateStatusContact)
 }
 
