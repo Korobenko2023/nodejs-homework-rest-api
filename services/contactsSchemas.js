@@ -1,4 +1,24 @@
-const Joi = require("joi") ;
+const { Schema, model } = require('mongoose');
+const Joi = require("joi");
+
+const contactSchema = new Schema(
+    {
+        name: {
+      type: String,
+      required: [true, 'Set name for contact'],
+    },
+    email: {
+      type: String,
+    },
+    phone: {
+      type: String,
+    },
+    favorite: {
+      type: Boolean,
+      default: false,
+    }, 
+
+    }, { versionKey: false, timestamps: true });
 
 const createContactSchema = Joi.object({
     name: Joi.string()
@@ -21,7 +41,16 @@ const updateContactSchema = Joi.object({
         .pattern(/^\(\d{3}\) \d{3}-\d{4}$/),
 }).min(1).messages({ "object.min": "Body must have at least one field" });
 
+const updateStatusContactSchema = Joi.object({
+    favorite: Joi.boolean().required(),
+});
+
+const Contact = model("contact", contactSchema);
+
 module.exports = {
     createContactSchema,
-    updateContactSchema
+    updateContactSchema,
+    updateStatusContactSchema,
+    Contact,
 }
+
