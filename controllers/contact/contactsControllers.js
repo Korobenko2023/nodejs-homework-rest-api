@@ -1,5 +1,5 @@
-const { Contact } = require("../services/contactsSchemas");
-const { HttpError, controllerWrapper } = require("../helpers");
+const { Contact } = require("../../models/contactsSchemas");
+const { HttpError, controllerWrapper } = require("../../helpers");
 
 const getAllContacts = async (req, res) => {
      const allContacts = await Contact.find({}, "-createdAt -updatedAt");

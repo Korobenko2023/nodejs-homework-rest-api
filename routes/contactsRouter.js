@@ -1,7 +1,7 @@
 const express = require('express');
 const { getAllContacts, getOneContact, deleteContact, createContact, updateContact, updateStatusContact } = require("../controllers/contactsControllers");
 const { validateBody, isValidId } = require("../helpers");
-const { createContactSchema, updateContactSchema, updateStatusContactSchema } = require("../services/contactsSchemas");
+const { createContactSchema, updateContactSchema, updateStatusContactSchema } = require("../models/contactsSchemas");
 
 const contactsRouter = express.Router();
 
