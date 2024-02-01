@@ -2,8 +2,9 @@ const { Contact } = require("../../models/contactsSchemas");
 const { HttpError, controllerWrapper } = require("../../helpers");
 
 const getAllContacts = async (req, res) => {
-     const allContacts = await Contact.find({}, "-createdAt -updatedAt");
-     res.json(allContacts)
+   const { _id: owner } = req.user;
+   const allContacts = await Contact.find({owner}, "-createdAt -updatedAt");
+   res.json(allContacts)
 };
 
 const getOneContact = async (req, res) => { 
@@ -17,7 +18,7 @@ const getOneContact = async (req, res) => {
 
 const deleteContact = async (req, res) => {
   const { contactId  } = req.params;
-    const deleteContact = await Contact.findByIdAndDelete(contactId)
+  const deleteContact = await Contact.findByIdAndDelete(contactId)
     if (!deleteContact) {
       throw HttpError(404);
     }
@@ -25,7 +26,8 @@ const deleteContact = async (req, res) => {
 };
 
 const createContact = async (req, res) => {
-    const newContact = await Contact.create(req.body);    
+  const { _id: owner } = req.user;
+  const newContact = await Contact.create({...req.body, owner});    
     res.status(201).json(newContact)    
 };
 

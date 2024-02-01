@@ -1,6 +1,8 @@
 const { User } = require("../../models/user");
-const { HttpError } = require("../../helpers/index");
+const { HttpError } = require("../../helpers");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const { SECRET_KEY } = require("../../config");
 
 const login = async (req, res, next) => {
     const { email, password } = req.body;
@@ -16,8 +18,15 @@ const login = async (req, res, next) => {
          throw HttpError(401, "Password is wrong")  
     }
 
+    const payload = {
+    id: user._id,
+    };
+
+    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
+    console.log(token)
+
     res.json({
-        token: "<TOKEN>",
+        token,
         user: {
             email,
             subscription: "starter"
