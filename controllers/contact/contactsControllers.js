@@ -3,15 +3,17 @@ const { HttpError, controllerWrapper } = require("../../helpers");
 
 const getAllContacts = async (req, res) => {
   const { _id: owner } = req.user;
-  const { page = 1, limit = 20 } = req.query;
+  const { page = 1, limit = 20, favorite } = req.query;
   const skip = (page - 1) * limit;
-  const allContacts = await Contact.find({owner}, "-createdAt -updatedAt", {skip, limit}).populate("owner", "email");
+  const filter = favorite ? { favorite: favorite === 'true'  } : {};
+  const allContacts = await Contact.find({ owner, ...filter }, "-createdAt -updatedAt", { skip, limit }).populate("owner", "email");
+ 
   res.json(allContacts)
 };
 
 const getOneContact = async (req, res) => { 
-  const { contactId } = req.params;
-  const contactById = await Contact.findById(contactId);
+  const { id } = req.params;
+  const contactById = await Contact.findById(id);
   if (!contactById) {
     throw HttpError(404);
   }
@@ -19,8 +21,8 @@ const getOneContact = async (req, res) => {
 };
 
 const deleteContact = async (req, res) => {
-  const { contactId  } = req.params;
-  const deleteContact = await Contact.findByIdAndDelete(contactId)
+  const { id } = req.params;
+  const deleteContact = await Contact.findByIdAndDelete(id)
     if (!deleteContact) {
       throw HttpError(404);
     }
@@ -34,8 +36,8 @@ const createContact = async (req, res) => {
 };
 
 const updateContact = async (req, res) => {
-  const { contactId } = req.params;
-  const updatedContact = await Contact.findByIdAndUpdate(contactId, req.body, { new: true })
+  const { id } = req.params;
+  const updatedContact = await Contact.findByIdAndUpdate(id, req.body, { new: true })
    if (!updatedContact) {
       throw HttpError(404);
   }   
@@ -43,8 +45,8 @@ const updateContact = async (req, res) => {
 };
  
 const updateStatusContact = async (req, res) => {
-  const { contactId } = req.params;
-  const updatedContact = await Contact.findByIdAndUpdate(contactId, req.body, { new: true })
+  const { id } = req.params;
+  const updatedContact = await Contact.findByIdAndUpdate(id, req.body, { new: true })
    if (!updatedContact) {
       throw HttpError(404);
   }   

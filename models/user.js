@@ -33,7 +33,7 @@ const authSchema = Joi.object({
     token: Joi.string(),  
 });
 
-const updateSubscriptionSchema = Joi.object({
+const updateSubscriptionSchema = Joi.object({ 
     subscription: Joi.string()
         .required(),
 });

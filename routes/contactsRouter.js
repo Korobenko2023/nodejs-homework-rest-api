@@ -7,14 +7,14 @@ const contactsRouter = express.Router();
 
 contactsRouter.get("/", authenticate, getAllContacts);
 
-contactsRouter.get('/:contactId', authenticate, isValidId, getOneContact);
+contactsRouter.get("/:id", authenticate, isValidId, getOneContact);
 
-contactsRouter.delete('/:contactId', authenticate, isValidId, deleteContact);
+contactsRouter.delete("/:id", authenticate, isValidId, deleteContact);
 
-contactsRouter.post('/', authenticate, validateBody(createContactSchema), createContact);
+contactsRouter.post("/", authenticate, validateBody(createContactSchema), createContact);
 
-contactsRouter.put('/:contactId', authenticate,  isValidId, validateBody(updateContactSchema), updateContact);
+contactsRouter.put("/:id", authenticate,  isValidId, validateBody(updateContactSchema), updateContact);
 
-contactsRouter.patch('/favorite/:contactId', authenticate, isValidId, validateBody(updateStatusContactSchema), updateStatusContact);
+contactsRouter.patch("/favorite/:id", authenticate, isValidId, validateBody(updateStatusContactSchema), updateStatusContact);
 
 module.exports = contactsRouter;
