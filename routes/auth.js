@@ -1,6 +1,6 @@
 const express = require('express');
 const { validateBody, authenticate, isValidId } = require("../middlewares");
-const { authSchema, updateSubscriptionSchema } = require("../models/user");
+const { authSchema, updateSubscriptionSchema } = require("../schemas/userSchemas");
 const { register, login, getCurrent, logout, updateStatusSubscription } = require("../controllers/auth");
 
 const authRouter = express.Router();
