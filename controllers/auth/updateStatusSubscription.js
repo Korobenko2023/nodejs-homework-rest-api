@@ -3,12 +3,7 @@ const { HttpError } = require("../../helpers");
 
 const updateStatusSubscription = async (req, res) => {
     const { id } = req.params;
-    const { subscription } = req.body;
-    const validSubscriptions = ["starter", "pro", "business"];
-     if (!validSubscriptions.includes(subscription)) {
-        throw HttpError(400, "Invalid subscription value");
-    }
-    const updatedUser = await User.findByIdAndUpdate(id, { subscription }, {new: true});
+    const updatedUser = await User.findByIdAndUpdate(id, req.body, {new: true});
         if (!updatedUser) {
         throw HttpError(404);
     }

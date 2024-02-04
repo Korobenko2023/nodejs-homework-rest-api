@@ -14,9 +14,12 @@ const authSchema = Joi.object({
 
 const updateSubscriptionSchema = Joi.object({
     subscription: Joi.string()
-        .required().messages({
-            'any.required': 'missing field subscription'
-        })
+        .valid("starter", "pro", "business") 
+        .required()
+        .messages({
+            'any.required': 'missing field subscription',
+            'any.only': 'Invalid subscription value'
+        }),
 });
 
 module.exports = {
