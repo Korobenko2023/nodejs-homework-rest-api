@@ -3,15 +3,17 @@ const morgan = require('morgan')
 const cors = require('cors')
 
 const contactsRouter = require("./routes/contactsRouter");
+const authRouter = require("./routes/auth");
 
 const app = express()
 
 app.set("json spaces", 2)
 
-app.use(morgan("tiny"));
+app.use(morgan("dev"));
 app.use(cors())
 app.use(express.json())
 
+app.use('/api/users', authRouter)
 app.use('/api/contacts', contactsRouter)
 
 app.use((_, res) => {
