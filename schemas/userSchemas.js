@@ -17,8 +17,8 @@ const updateSubscriptionSchema = Joi.object({
         .valid("starter", "pro", "business") 
         .required()
         .messages({
-            'any.required': 'missing field subscription',
-            'any.only': 'Invalid subscription value'
+            "any.required": "missing field subscription",
+            "any.only": "Invalid subscription value",
         }),
 });
 
