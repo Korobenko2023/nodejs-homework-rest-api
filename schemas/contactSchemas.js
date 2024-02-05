@@ -22,7 +22,11 @@ const updateContactSchema = Joi.object({
 }).min(1).messages({ "object.min": "Body must have at least one field" });
 
 const updateStatusContactSchema = Joi.object({
-    favorite: Joi.boolean().required(),
+    favorite: Joi.boolean()
+        .required()
+        .messages({
+        "any.required": "missing field favorite",
+    }),
 });
 
 module.exports = {
