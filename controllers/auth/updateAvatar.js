@@ -15,14 +15,12 @@ const updateAvatar = async (req, res) => {
     try {
         
         const image = await Jimp.read(tempPath);
-        await image.resize(250, 250);
+        image.resize(250, 250);
         await image.writeAsync(publicPath);
-  
-        const avatarURL = `/avatars/${uniqueFilename}`;
- 
-        const updatedUser = await User.findByIdAndUpdate(_id, { avatarURL }, { new: true });
+   
+        const updatedUser = await User.findByIdAndUpdate(_id, { avatarURL: publicPath }, { new: true });
      
-        return res.json({ avatarURL });
+        return res.json({ avatarURL: updatedUser.avatarURL });
         
     } catch (error) {
         await fs.unlink(tempPath)
