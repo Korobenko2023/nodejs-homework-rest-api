@@ -10,7 +10,6 @@ authRouter.post("/login", validateBody(authSchema), login);
 authRouter.post("/logout", authenticate, logout);
 authRouter.get("/current", authenticate, getCurrent);
 authRouter.patch("/subscription/:id", authenticate, isValidId, validateBody(updateSubscriptionSchema), updateStatusSubscription);
-// authRouter.patch("/avatars", authenticate, upload.single("avatar"), updateAvatar);
 authRouter.patch("/avatars", authenticate, upload.single("avatar"), updateAvatar);
 
 module.exports = authRouter;
