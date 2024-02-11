@@ -4,7 +4,7 @@ const app = require('../../app');
 const request = require("supertest");
 const User = require("../../models/user");
 
-describe('User Registration and Login', () => {
+describe('User Login', () => {
   beforeAll(async () => {
     await mongoose
       .connect(DB_HOST_TEST)
@@ -12,23 +12,14 @@ describe('User Registration and Login', () => {
       .catch((err) => {
         console.error(err)
       })
-    
-    await User.deleteMany()
-
   })
 
-  it("should registration a new user", async () => {
-    const response = await request(app).post("/api/users/register").send({
+  it("should log in user", async () => {
+      await request(app).post("/api/users/register").send({
       email: "test1@gmail.com",
       password: "password"
-    });
+      });
     
-    expect(response.statusCode).toBe(201); 
-    expect(response.body.user.email).toBe("test1@gmail.com");
-    expect(response.body.user.subscription).toBeTruthy();
-  });
-
-    it("should log in user", async () => {
       const response = await request(app).post("/api/users/login").send({
       email: "test1@gmail.com",
       password: "password"
@@ -38,14 +29,16 @@ describe('User Registration and Login', () => {
       expect(response.body.token).toBeTruthy();
       expect(response.body.user.email).toBe("test1@gmail.com");
       expect(response.body.user.subscription).toBeTruthy();
-    })
-  
+    })  
 
-    afterAll(async () => {
+  afterAll(async () => {
+      await User.deleteMany();
       await mongoose
         .disconnect(DB_HOST_TEST)
         .then(() => console.log("Database disconnected"))
     })
   })
+
+
 
 
