@@ -28,7 +28,9 @@ describe('User Login', () => {
       expect(response.statusCode).toBe(200);
       expect(response.body.token).toBeTruthy();
       expect(response.body.user.email).toBe("test1@gmail.com");
+      expect(typeof response.body.user.email).toEqual(expect.any(String));
       expect(response.body.user.subscription).toBeTruthy();
+      expect(typeof response.body.user.subscription).toEqual(expect.any(String));
     })  
 
   afterAll(async () => {
