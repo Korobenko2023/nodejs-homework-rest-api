@@ -12,6 +12,15 @@ const authSchema = Joi.object({
     token: Joi.string(),  
 });
 
+const loginSchema = Joi.object({
+    password: Joi.string()
+        .required()
+        .min(6),    
+    email: Joi.string()
+        .pattern(emailRegex)
+        .required(),    
+});
+
 const updateSubscriptionSchema = Joi.object({
     subscription: Joi.string()
         .valid("starter", "pro", "business") 
@@ -22,7 +31,18 @@ const updateSubscriptionSchema = Joi.object({
         }),
 });
 
+const emailSchema = Joi.object({  
+    email: Joi.string()
+        .pattern(emailRegex)
+        .required()
+        .messages({
+        "any.required": "missing required field email",
+    }),
+});
+
 module.exports = {
     authSchema,
+    loginSchema,
     updateSubscriptionSchema,
+    emailSchema,
 };

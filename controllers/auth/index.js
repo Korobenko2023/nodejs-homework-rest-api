@@ -6,6 +6,7 @@ const logout = require("./logout");
 const updateStatusSubscription = require("./updateStatusSubscription");
 const updateAvatar = require("./updateAvatar");
 const verifyEmail = require("./verifyEmail");
+const resendVerifyEmail = require("./resendVerifyEmail");
 
 module.exports = {
     register: controllerWrapper(register),
@@ -15,4 +16,5 @@ module.exports = {
     updateStatusSubscription: controllerWrapper(updateStatusSubscription),
     updateAvatar: controllerWrapper(updateAvatar),
     verifyEmail: controllerWrapper(verifyEmail),
+    resendVerifyEmail: controllerWrapper(resendVerifyEmail),
 }
