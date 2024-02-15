@@ -29,10 +29,10 @@ const register = async (req, res, next) => {
   await sendEmail(verifyEmail);
 
       res.status(201).json({
-          user: {
-              email: userNew.email,
-              subscription: userNew.subscription,
-            }
+        user: {
+          email: userNew.email,
+          subscription: userNew.subscription,
+        }
 })  
 }
 
